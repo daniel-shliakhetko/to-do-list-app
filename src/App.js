@@ -1,3 +1,4 @@
+import React from "react";
 import {
   HashRouter as Router,
   Routes,
@@ -6,29 +7,34 @@ import {
 } from "react-router-dom";
 import { connect } from "react-redux";
 import { mapDispatchToProps, mapStateToProps } from "./storage/store";
+import Authentication from "./pages/Authentication/Authentication";
+import { AuthContext } from "./contexts/AuthContext";
 
 const isAuth = false;
 
-function App() {
+const App = (props) => {
+
   return (
     <div className="App">
-      <Router>
-        {isAuth ? (
-          <Routes>
-            <Route path={"/workspace"} element={"Workspace"} />
-            <Route path={"/account"} element={"Account"} />
-            <Route path={"*"} element={<Navigate to={"/workspace"} />} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path={"/auth"} element={"Register"} />
-            <Route path={"/"} element={"Main"} />
-            <Route path={"*"} element={<Navigate to={"/"} />} />
-          </Routes>
-        )}
-      </Router>
+      <AuthContext>
+        <Router>
+          {isAuth ? (
+            <Routes>
+              <Route path={"/workspace"} element={"Workspace"} />
+              <Route path={"/account"} element={"Account"} />
+              <Route path={"*"} element={<Navigate to={"/workspace"} />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path={"/auth/:type"} element={<Authentication />} />
+              <Route path={"/"} element={"Main"} />
+              <Route path={"*"} element={<Navigate to={"/"} />} />
+            </Routes>
+          )}
+        </Router>
+      </AuthContext>
     </div>
   );
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

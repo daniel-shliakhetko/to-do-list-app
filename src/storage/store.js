@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { loginUser, logoutUser } from "./actions";
+import { loginUserAction, logoutUserAction } from "./actions";
 import { LOGIN, LOGOUT } from "./types";
 
 const defaultState = {
   auth: {
     isAuth: false,
-    uid: null,
-    email: null,
+    uid: '',
+    email: '',
   },
   app: null,
 };
@@ -14,6 +14,7 @@ const defaultState = {
 const authReducer = (state=defaultState.auth, action) => {
   switch (action.type) {
     case LOGIN:
+      console.log(action.payload)
       return action.payload;
     case LOGOUT:
       return action.payload;
@@ -42,6 +43,6 @@ export const mapStateToProps = (state) => ({
 });
 
 export const mapDispatchToProps = (dispatch) => ({
-  loginUser: () => dispatch(loginUser),
-  logoutUser: () => dispatch(logoutUser),
+  loginUserAction: () => dispatch(loginUserAction),
+  logoutUserAction: () => dispatch(logoutUserAction),
 });

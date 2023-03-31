@@ -1,6 +1,6 @@
 import { LOGIN, LOGOUT } from "./types";
 
-export const loginUser = (uid, email) => ({
+export const loginUserAction = (uid, email) => ({
     type: LOGIN,
     payload: {
         isAuth: true,
@@ -9,11 +9,11 @@ export const loginUser = (uid, email) => ({
     }
 });
 
-export const logoutUser = (uid, email) => ({
+export const logoutUserAction = () => ({
     type: LOGOUT,
     payload: {
         isAuth: false,
-        uid: null,
-        email: null,
+        uid: '',
+        email: '',
     }
 });
