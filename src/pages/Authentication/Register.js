@@ -31,14 +31,6 @@ export const Register = (props) => {
         type="password"
       />
       <input type="submit" />
-      <button
-        onClick={() => {
-          logoutUser();
-          dispatch(logoutUserAction());
-        }}
-      >
-        Loggout
-      </button>
       {user.email || "none user"}
     </form>
   );
