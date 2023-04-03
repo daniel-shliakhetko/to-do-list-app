@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { registerUser, registerUserWithGoogle } from "../../database/firebase";
+import { registerUser, loginUserWithGoogle } from "../../database/firebase";
 import { useDispatch } from "react-redux";
 import { loginUserAction } from "../../storage/actions";
 
@@ -11,18 +11,18 @@ export const Register = (props) => {
 
   const handleUserRegister = async () => {
     const registeredUser = await registerUser(email, password);
-    console.log(registeredUser);
-    dispatch(loginUserAction(registeredUser.uid, registeredUser.email));
+    !registeredUser.error && dispatch(loginUserAction(registeredUser.uid, registeredUser.email));
   };
 
   const handleUserRegisterWithGoogle = async () => {
-    const registeredUser = await registerUserWithGoogle();
-    dispatch(loginUserAction(registeredUser.uid, registeredUser.email));
+    const registeredUser = await loginUserWithGoogle();
+    !registeredUser.error && dispatch(loginUserAction(registeredUser.uid, registeredUser.email));
   };
 
   return (
     <form
       className="Register"
+      action="/register"
       onSubmit={(e) => {
         e.preventDefault();
         handleUserRegister();
