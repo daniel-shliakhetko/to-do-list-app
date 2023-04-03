@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { logoutUser, registerUser } from "../../database/firebase";
-import { useAuth } from "../../contexts/AuthContext";
+import { registerUser, registerUserWithGoogle } from "../../database/firebase";
 import { useDispatch } from "react-redux";
-import { loginUserAction, logoutUserAction } from "../../storage/actions";
+import { loginUserAction } from "../../storage/actions";
 
 export const Register = (props) => {
   const dispatch = useDispatch();
@@ -10,16 +9,25 @@ export const Register = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const user = useAuth();
+  const handleUserRegister = async () => {
+    const registeredUser = await registerUser(email, password);
+    console.log(registeredUser);
+    dispatch(loginUserAction(registeredUser.uid, registeredUser.email));
+  };
 
-  const handleUserRegister = (e) => {
-    e.preventDefault();
-    const user = registerUser(email, password);
-    dispatch(loginUserAction(user.uid, user.email));
+  const handleUserRegisterWithGoogle = async () => {
+    const registeredUser = await registerUserWithGoogle();
+    dispatch(loginUserAction(registeredUser.uid, registeredUser.email));
   };
 
   return (
-    <form onSubmit={handleUserRegister}>
+    <form
+      className="Register"
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleUserRegister();
+      }}
+    >
       <input
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -30,8 +38,8 @@ export const Register = (props) => {
         onChange={(e) => setPassword(e.target.value)}
         type="password"
       />
-      <input type="submit" />
-      {user.email || "none user"}
+      <input value="Register" type="submit" />
+      <button onClick={handleUserRegisterWithGoogle}>Google</button>
     </form>
   );
 };

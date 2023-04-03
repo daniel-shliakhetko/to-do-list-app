@@ -3,7 +3,7 @@ import { LOGIN, LOGOUT } from "./types";
 export const loginUserAction = (uid, email) => ({
     type: LOGIN,
     payload: {
-        isAuth: true,
+        isAuth: (uid && email) || false,
         uid,
         email,
     }

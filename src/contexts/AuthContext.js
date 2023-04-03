@@ -20,7 +20,7 @@ export const AuthContext = (props) => {
     if (error) console.log(error);
     dispatch(loginUserAction(user.uid, user.email));
     setGotUser(true);
-    console.log("Loggined");
+    console.log("Logged in");
   }, [dispatch, user, loading, error, gotUser, setGotUser]);
 
   return (
