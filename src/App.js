@@ -1,19 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   HashRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { mapDispatchToProps, mapStateToProps } from "./storage/store";
 import Authentication from "./pages/Authentication/Authentication";
 import { AuthContext } from "./contexts/AuthContext";
 import { Account } from "./pages/Account/Account";
 import { Workspace } from "./pages/Workspace/Workspace";
 import { Main } from "./pages/Main/Main";
+import { getUserData } from "./database/firebase";
+import { setUserDataAction } from "./storage/actions";
 
 const App = (props) => {
+
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => async () => {
+      if (!props.userData) {
+      console.log('Yes');
+        const userData = await getUserData();
+        if(!userData) return;
+        dispatch(setUserDataAction(userData))
+        console.log(userData.name);
+      }
+    },
+    [dispatch, props]
+  );
 
   return (
     <div className="App">
@@ -21,7 +38,7 @@ const App = (props) => {
         <Router>
           {props.auth.isAuth ? (
             <Routes>
-              <Route path={"/workspace"} element={<Workspace/>} />
+              <Route path={"/workspace"} element={<Workspace userData={props.userData}/>} />
               <Route path={"/account"} element={<Account/>} />
               <Route path={"*"} element={<Navigate to={"/workspace"} />} />
             </Routes>

@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+import {collection, getDocs, getFirestore, query, where} from "firebase/firestore"
 
 const app = initializeApp({
   apiKey: "AIzaSyC67ZIY3NmsfOaMK32Me5IxLqtphl5D5uA",
@@ -20,6 +21,9 @@ const app = initializeApp({
 
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+
+export const db = getFirestore(app);
+const usersRef = collection(db, "users");
 
 export const registerUser = async (email, passowrd) => {
   try {
@@ -88,3 +92,17 @@ export const logoutUser = async () => {
     console.error(err);
   }
 };
+
+export const getUserData = async () => {
+  if(!auth?.currentUser?.uid) return;
+  const uid = auth?.currentUser?.uid;
+  const q = query(usersRef, where("uid", "==", uid))
+  try{
+    const querySnapshot = await getDocs(q);
+    let data = {};
+    querySnapshot.forEach(doc=>{data = doc.data()});
+    return data;
+  } catch(e){
+    console.log(e)
+  }
+}

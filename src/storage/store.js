@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { loginUserAction, logoutUserAction } from "./actions";
-import { LOGIN, LOGOUT } from "./types";
+import { loginUserAction, logoutUserAction, changeUserDataAction, setUserDataAction } from "./actions";
+import { LOGIN, LOGOUT, CHANGEDATA, SETDATA } from "./types";
 
 const defaultState = {
   auth: {
@@ -8,13 +8,12 @@ const defaultState = {
     uid: '',
     email: '',
   },
-  app: null,
+  userData: null,
 };
 
 const authReducer = (state=defaultState.auth, action) => {
   switch (action.type) {
     case LOGIN:
-      console.log(action.payload)
       return action.payload;
     case LOGOUT:
       return action.payload;
@@ -23,8 +22,12 @@ const authReducer = (state=defaultState.auth, action) => {
   }
 };
 
-const appReducer = (state=defaultState.app, action) => {
+const userDataReducer = (state=defaultState.userData, action) => {
   switch (action.type) {
+    case SETDATA:
+      return action.payload;
+    case CHANGEDATA:
+      return Object.assign(state||{}, action.payload);
     default:
       return state;
   }
@@ -33,7 +36,7 @@ const appReducer = (state=defaultState.app, action) => {
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    app: appReducer,
+    userData: userDataReducer,
   },
   preloadedState: defaultState,
 });
@@ -45,4 +48,6 @@ export const mapStateToProps = (state) => ({
 export const mapDispatchToProps = (dispatch) => ({
   loginUserAction: () => dispatch(loginUserAction),
   logoutUserAction: () => dispatch(logoutUserAction),
+  setUserDataAction: () => dispatch(setUserDataAction),
+  changeUserDataAction: () => dispatch(changeUserDataAction),
 });

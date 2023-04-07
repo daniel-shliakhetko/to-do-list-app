@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT } from "./types";
+import { LOGIN, LOGOUT, SETDATA, CHANGEDATA } from "./types";
 
 export const loginUserAction = (uid, email) => ({
     type: LOGIN,
@@ -17,3 +17,13 @@ export const logoutUserAction = () => ({
         email: '',
     }
 });
+
+export const setUserDataAction = (userData) => ({
+    type: SETDATA,
+    payload: userData,
+})
+
+export const changeUserDataAction = (changes) => ({
+    type: CHANGEDATA,
+    payload: changes,
+})
