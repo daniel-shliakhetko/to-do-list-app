@@ -1,0 +1,13 @@
+@import "../../../styles/variables.scss";
+
+.ErrorMessage{
+    width: 100%;
+    padding: 0.25rem 0;
+    margin: 0 1rem;
+    font-size: 0.75em;
+    text-align: center;
+    border-radius: $br-small;
+    opacity: 0.8;
+    background-color: $error-bg;
+    color:$error-border;
+}
