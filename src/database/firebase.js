@@ -51,7 +51,7 @@ export const registerUser = async (email, passowrd) => {
         };
       default:
         console.log(err.message);
-        return { error: err.message };
+        return { error: "Something went wrong.", code:err.message };
     }
   }
 };
@@ -68,7 +68,7 @@ export const loginUser = async (email, passowrd) => {
         return { error: "Email address is invalid." };
       default:
         console.log(err.message);
-        return { error: err.message };
+        return { error: "Something went wrong.", code:err.message };
     }
   }
 };
@@ -80,7 +80,7 @@ export const loginUserWithGoogle = async () => {
     return user.user;
   } catch (err) {
     console.log(err.message);
-    return { error: err.message };
+    return { error: "Something went wrong.", code:err.message };
   }
 };
 
@@ -102,7 +102,7 @@ export const getUserData = async () => {
     let data = {};
     querySnapshot.forEach(doc=>{data = doc.data()});
     return data;
-  } catch(e){
-    console.log(e)
+  } catch(err){
+    console.log(err)
   }
 }
