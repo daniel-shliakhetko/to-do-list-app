@@ -1,0 +1,186 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
+@import "../../styles/variables.scss";
+
+.Authentication {
+    overflow: hidden;
+    position: relative;
+    display: flex;
+
+    &Background {
+        height: 200vh;
+        width: 100%;
+        background-image: url("../../images/background.jpg");
+        background-size: 30rem;
+        opacity: 0.075;
+        animation: 500s linear 0s infinite background;
+    }
+
+    &Wrapper {
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        display: flex;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+
+        &.not-active {
+            z-index: 1;
+        }
+    }
+
+    &Rotator {
+        animation: 0.25s linear 0s normal showing;
+
+        .not-active & {
+            animation: none;
+        }
+    }
+
+    &Container {
+        max-width: 17rem;
+        position: relative;
+        flex-direction: column;
+        transition: 0.25s;
+
+        .not-active & {
+            animation: none;
+            // opacity: 0.5;
+        }
+
+        .not-active.Register &:hover {
+            transform: translate(-1rem, -0.5rem);
+        }
+
+        .not-active.Login &:hover {
+            transform: translate(1rem, -0.5rem);
+        }
+    }
+
+    &Link {
+        padding: 0.5rem 0 1rem 0;
+        top: -2.75rem;
+        position: absolute;
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $element;
+        border-top-left-radius: $br-box;
+        border-top-right-radius: $br-box;
+
+        .Register & {
+            left: 0;
+        }
+
+        .Login & {
+            right: 0;
+        }
+
+        .not-active & {
+            background-color: $element-dark;
+        }
+    }
+
+    .not-active a {
+        color: $button-dark;
+
+        &:hover {
+            color: $hover-dark;
+        }
+    }
+
+    &Form {
+        padding: 2rem 1rem 1rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: $br-box;
+        background-color: $element;
+        transition: 0.125s;
+
+        .Register & {
+            border-top-left-radius: 0;
+        }
+
+        .Login & {
+            border-top-right-radius: 0;
+        }
+
+        *,
+        input {
+            margin-top: 0.5rem !important;
+        }
+
+        label {
+            text-align: left;
+            color: $button;
+        }
+
+        .not-active & {
+            background-color: $element-dark;
+
+            & * {
+                opacity: 0;
+            }
+        }
+    }
+
+    &Title {
+        font-size: 1.25em;
+        text-align: center !important;
+        margin-bottom: 1rem;
+    }
+
+    &Submit {
+        width: 100%;
+        display: flex;
+        margin-top: 0 !important;
+
+        &>*:last-child {
+            margin-left: 0.5rem;
+        }
+    }
+
+    .not-active {
+        a:hover {
+            color: $hover;
+            cursor: pointer;
+        }
+    }
+
+    a:hover {
+        color: $button;
+        cursor: default;
+    }
+}
+
+@keyframes showing {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    25% {
+        transform: rotate(15deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes background {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-50rem);
+    }
+}
+
+button,
+input[type=submit],
+label {
+    width: 100%;
+}
