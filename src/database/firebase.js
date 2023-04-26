@@ -7,7 +7,15 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import {collection, getDocs, getFirestore, query, where} from "firebase/firestore"
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 
 const app = initializeApp({
   apiKey: "AIzaSyC67ZIY3NmsfOaMK32Me5IxLqtphl5D5uA",
@@ -51,7 +59,7 @@ export const registerUser = async (email, passowrd) => {
         };
       default:
         console.log(err.message);
-        return { error: "Something went wrong.", code:err.message };
+        return { error: "Something went wrong.", code: err.message };
     }
   }
 };
@@ -68,7 +76,7 @@ export const loginUser = async (email, passowrd) => {
         return { error: "Email address is invalid." };
       default:
         console.log(err.message);
-        return { error: "Something went wrong.", code:err.message };
+        return { error: "Something went wrong.", code: err.message };
     }
   }
 };
@@ -80,7 +88,7 @@ export const loginUserWithGoogle = async () => {
     return user.user;
   } catch (err) {
     console.log(err.message);
-    return { error: "Something went wrong.", code:err.message };
+    return { error: "Something went wrong.", code: err.message };
   }
 };
 
@@ -94,15 +102,38 @@ export const logoutUser = async () => {
 };
 
 export const getUserData = async () => {
-  if(!auth?.currentUser?.uid) return;
+  if (!auth?.currentUser?.uid) return;
   const uid = auth?.currentUser?.uid;
-  const q = query(usersRef, where("uid", "==", uid))
-  try{
+  const q = query(usersRef, where("uid", "==", uid));
+  try {
     const querySnapshot = await getDocs(q);
     let data = {};
-    querySnapshot.forEach(doc=>{data = doc.data()});
+    querySnapshot.forEach((doc) => {
+      data = doc.data();
+    });
     return data;
-  } catch(err){
-    console.log(err)
+  } catch (err) {
+    console.log(err);
   }
-}
+};
+
+export const createUserData = async (uid, firstWorkspaceTitle, userObj) => {
+  const newUserObj = Object.assign(
+    {
+      uid,
+      name: "",
+      settings: {},
+      spaces: [
+        { title: firstWorkspaceTitle, sections: [{ title: "", list: [] }] },
+      ],
+    },
+    userObj || {}
+  );
+  const newUserRef = doc(db, "users", uid);
+  try {
+    console.log("trying create user");
+    await setDoc(newUserRef, newUserObj);
+  } catch (err) {
+    console.log(err);
+  }
+};

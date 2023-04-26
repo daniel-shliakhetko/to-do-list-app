@@ -1,0 +1,31 @@
+@import "../../styles/variables.scss";
+
+.CreateNewUser{
+    background-color: $element;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &Container{
+        width: fit-content;
+        padding-bottom:10vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        *{
+            margin-bottom: 2rem;
+        }
+        .Heading{
+            font-size: 2em;
+            color:$button;
+        }
+        input{
+            font-size:1.1em;
+        }
+        button{
+            font-size: 1.5em;
+            width:100%;
+        }
+    }
+}

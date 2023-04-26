@@ -16,17 +16,15 @@ import { getUserData } from "./database/firebase";
 import { setUserDataAction } from "./storage/actions";
 
 const App = (props) => {
-
   const dispatch = useDispatch();
 
   useEffect(
     () => async () => {
       if (!props.userData) {
-      console.log('Yes');
         const userData = await getUserData();
-        if(!userData) return;
-        dispatch(setUserDataAction(userData))
-        console.log(userData.name);
+        if (!userData) return;
+        dispatch(setUserDataAction(userData));
+        console.log(props.auth, props.userData);
       }
     },
     [dispatch, props]
@@ -38,14 +36,21 @@ const App = (props) => {
         <Router>
           {props.auth.isAuth ? (
             <Routes>
-              <Route path={"/workspace"} element={<Workspace userData={props.userData}/>} />
-              <Route path={"/account"} element={<Account/>} />
+              <Route
+                path={"/workspace"}
+                element={<Workspace userData={props.userData} />}
+              />
+              <Route
+                path={"/workspace/:page"}
+                element={<Workspace userData={props.userData} />}
+              />
+              <Route path={"/account"} element={<Account />} />
               <Route path={"*"} element={<Navigate to={"/workspace"} />} />
             </Routes>
           ) : (
             <Routes>
               <Route path={"/auth/:type"} element={<Authentication />} />
-              <Route path={"/"} element={<Main/>} />
+              <Route path={"/"} element={<Main />} />
               <Route path={"*"} element={<Navigate to={"/"} />} />
             </Routes>
           )}
